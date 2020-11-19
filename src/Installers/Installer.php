@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace OomphInc\ComposerInstallersExtender\Installers;
 
 use Composer\Package\PackageInterface;
@@ -20,7 +18,7 @@ class Installer extends InstallerBase
     /**
      * {@inheritDoc}
      */
-    public function getInstallPath(PackageInterface $package): string
+    public function getInstallPath(PackageInterface $package)
     {
         $installer = new CustomInstaller($package, $this->composer, $this->io);
         $path = $installer->getInstallPath($package, $package->getType());
@@ -31,7 +29,7 @@ class Installer extends InstallerBase
     /**
      * {@inheritDoc}
      */
-    public function supports($packageType): bool
+    public function supports($packageType)
     {
         return in_array($packageType, $this->getInstallerTypes());
     }
@@ -41,11 +39,11 @@ class Installer extends InstallerBase
      *
      * @return array
      */
-    public function getInstallerTypes(): array
+    public function getInstallerTypes()
     {
         if (!$this->installerTypes) {
             $extra = $this->composer->getPackage()->getExtra();
-            $this->installerTypes = $extra['installer-types'] ?? [];
+            $this->installerTypes = isset($extra['installer-types']) ? $extra['installer-types']: array();
         }
 
         return $this->installerTypes;
